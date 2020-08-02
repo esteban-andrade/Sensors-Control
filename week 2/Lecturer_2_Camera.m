@@ -22,6 +22,7 @@ X = [15;10;80;1];
 %% Eye n by n identity matrix
 P = eye(3,4);
 
+%%Multiplied by identity matrix
 x = K*P*X;
 
 u = x(1)/x(3)
