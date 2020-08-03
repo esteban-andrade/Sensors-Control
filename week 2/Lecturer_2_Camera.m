@@ -25,6 +25,9 @@ P = eye(3,4);
 %%Multiplied by identity matrix
 x = K*P*X;
 
+%% x/z
 u = x(1)/x(3)
+
+%% y/z
 v = x(2)/x(3)
 
