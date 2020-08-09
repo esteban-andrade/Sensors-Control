@@ -19,10 +19,8 @@ for kk = 1:n_ima,
         end;
         if active_images(kk),
             N_points_views(kk) = size(x_kk,2);
-           
-           [omckk,Tckk] = compute_extrinsic_init(x_kk,X_kk,fc,cc,kc,alpha_c);
-           [omckk,Tckk,Rckk,JJ_kk] = compute_extrinsic_refine(omckk,Tckk,x_kk,X_kk,fc,cc,kc,alpha_c,20,thresh_cond);
-           
+            [omckk,Tckk] = compute_extrinsic_init(x_kk,X_kk,fc,cc,kc,alpha_c);
+            [omckk,Tckk,Rckk,JJ_kk] = compute_extrinsic_refine(omckk,Tckk,x_kk,X_kk,fc,cc,kc,alpha_c,20,thresh_cond);
             if check_cond,
                 if (cond(JJ_kk)> thresh_cond),
                     active_images(kk) = 0;
