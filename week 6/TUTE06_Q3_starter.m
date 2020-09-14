@@ -1,8 +1,30 @@
+clear all
 close all
-close all
+
+
+x0=[3;0]; % initial position
+
+A = [0  1; 0.01 0];
+B = [0; 1];
+C = [1 0];
+D = 0;
+
+
+% control law
+Q=[1 0;     %penalises the angular error
+    0 1];   % penalises angular rate
+R = 1;      %penalises truster effort
+K=lqr(A,B,Q,R) % will give optimal values 
 
 
 
+
+
+
+
+sys=ss(A-B*K,B,C,D);
+t=0:0.005:30;
+[y,t,x]=initial(sys,x0,t);
 
 
 %% Everything below this is just for the visualization
