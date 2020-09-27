@@ -1,4 +1,8 @@
 %% Define Model
+clear all
+close all
+clc 
+
 
 A = [1.5 1.75 1.3
     1 0 0;
@@ -24,22 +28,47 @@ R = 1;
 
 sys = ss(A,B,C,[], 1);
 
+
+stability = isstable(sys)
+step (sys)
+
+for k = 1:20
+    X(:,k+1) = A*X(:,k)+50 ;    
+
+    Y(k) = C*X(:,k);
+end
+figure
+hold on
+plot(X(1,:))
+plot(X(2,:))
+plot(X(3,:))
+plot(Y)
+legend('X1', 'X2', 'X3', 'Y')
+xlabel('k')
+
+
 %% LQR
+
+%K with lqr will be used to determine the tuning. we will add feedback with
+%the Q and R
 
 K = lqr(sys, Q, R);
 
 for k = 1:20
-    X(:,k+1) = A*X(:,k) + B*(-1)*K*X(:,k);    
+    X(:,k+1) = A*X(:,k) + B*(-1)*K*X(:,k)+1;    
 
-    y(k) = C*X(:,k);
+    Y(k) = C*X(:,k);
 end
+
+sys_cl = ss(A-B*K,B,C,[], 1);
+step (sys_cl)
 
 figure
 hold on
 plot(X(1,:))
 plot(X(2,:))
 plot(X(3,:))
-plot(y)
+plot(Y)
 legend('X1', 'X2', 'X3', 'Y')
 xlabel('k')
 

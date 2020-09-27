@@ -6,6 +6,8 @@ a1 = 0.6;
 a2 = 0.6;
 b3 = 0.05;
 r3 = 0.8;
+
+%initial states
 x1_0 = 300;
 x2_0 = 100;
 x3_0 = 80;
@@ -34,15 +36,15 @@ Y = zeros(1,13);
 
 for k = 1:12
     X(:,k+1) = A*X(:,k) + B*Uk;    
-    y(k) = C*X(:,k);
+    Y(k) = C*X(:,k);
 end
 
 figure
 hold on
-plot(X(1,:))
-plot(X(2,:))
-plot(X(3,:))
-plot(y)
+scatter(linspace(0,12,13),X(1,:))
+scatter(linspace(0,12,13),X(2,:))
+scatter(linspace(0,12,13),X(3,:))
+scatter(linspace(0,12,13),Y)
 legend('X1', 'X2', 'X3', 'Y')
 xlabel('k')
 ylabel('Stock Units')
@@ -50,20 +52,20 @@ ylabel('Stock Units')
 
 %% Calculating eigen values of A to test for system stability
 
-eig(A)
+eigenValues = eig(A)
 
 
 %% Test for system controllability
 
 Co = [B A*B A^2*B];
-rank(Co)
+rank_ = rank(Co)
 
 %% Create discrete time system model
 
 sys = ss(A,B,C,0, 1, 'TimeUnit', 'months');
 
 % Check stability
-isstable(sys)
+stability = isstable(sys)
 
 % Calculate control matrix
 CO = ctrb(A,B)
